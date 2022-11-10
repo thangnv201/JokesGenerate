@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
@@ -29,8 +30,8 @@ public class JokingController {
         this.bucket = Bucket4j.builder().addLimit(limit).build();
     }
 
-    @GetMapping("jokes/{keyword}")
-    public ResponseEntity<List<Joking>> getJokes(@PathVariable String keyword) {
+    @GetMapping("jokes")
+    public ResponseEntity<List<Joking>> getJokes(@RequestParam("keyword") String keyword) {
         if (bucket.tryConsume(1)) {
             return ResponseEntity.ok(jokingService.getJokes(keyword));
 
